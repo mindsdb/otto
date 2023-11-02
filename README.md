@@ -10,6 +10,10 @@ Welcome to Otto, the most minimalistic library for building intelligent AI Agent
 pip install ottoai
 ```
 
+
+## Example
+
+
 An agent that learns how to answer questions about Github straight from the github python SDK!
 
 ```Python
