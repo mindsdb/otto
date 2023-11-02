@@ -1,73 +1,17 @@
-# otto
-A minimalistic framework for adding skills to LLMs, taking into account agent multi-tenancy.
+<img src="https://github.com/mindsdb/otto/assets/5898506/c1205022-7f73-41cc-82ea-8075801bdbd4" alt="description" style="width: 20%;" />
 
 
-
-```python
-
-import ottoai
-
-import requests
-from ics import Calendar
-
-class ICalendar:
-    def __init__(self, ical_link: str):
-        self.ical_link = ical_link
-        self.calendar = self._load_calendar()
-    
-    def _load_calendar(self) -> Calendar:
-        # Fetch the ical content from the link
-        response = requests.get(self.ical_link)
-        response.raise_for_status()
-        return Calendar(response.text)
-
-    def search_events(self, start_time, end_time):
-        # Filter events within the given time range
-        return [event for event in self.calendar.events if start_time <= event.begin <= end_time]
-
-    def get_calendar_details(self, start_time, end_time):
-        events = self.search_events(start_time, end_time)
-        details = []
-        
-        for event in events:
-            detail = {
-                'summary': event.name,
-                'description': event.description,
-                'begin': event.begin,
-                'end': event.end,
-                'attendees': [attendee for attendee in event.attendees],
-            }
-            
-            if "zoom.us" in event.description or "zoom.us" in event.location:
-                detail['location'] = 'Zoom Call'
-            else:
-                detail['location'] = event.location
-
-            details.append(detail)
-        
-        return details
+# Otto: The minimalistic Agent Framework
 
 
+Welcome to Otto, the most minimalistic library for building intelligent AI Agents straight from Python Objects adept at handling agent multitenancy and secure authentication.
 
-calendar_skill = ottoai.Skill(ICalendar)
-
-calendar_skill.chat()
-
-```
-
-This will launch the skill and you can have around that skill.
-
-```bash
-
-Otto: "Hi! my name is Otto (you can change my name), and right now we are on the calendar skill, to get started, what is your calendar ilink"
-You: "https://..."
-Otto: "Perfect, what do you want to know from your calendar."
-You: "Do I have in person meetings tomorrow?"
-Otto: "What date is it tomorrow?"
-You: "Tomorrow is October 18 2023"
-Otto: "You have one event tomorrow at 213 vallejo st, san francisco california"
-
-```
+## Agent Multitenancy
 
 
+Multitenancy allows for running multiple agent instances concurrently, each serving a unique tenant. Otto ensures data isolation and security across tenants.
+
+## Secure Authentication
+
+Otto streamlines agent authentication for third-party services, along with granular access control to services and data, ensuring tailored user access and data integrity.
 
