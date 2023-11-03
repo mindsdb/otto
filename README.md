@@ -4,15 +4,40 @@
 # Otto: The minimalistic Agent Framework
 
 
-Welcome to Otto, the most minimalistic library for building intelligent AI Agents straight from Python Objects adept at handling agent multitenancy and secure authentication.
+Welcome to Otto, the most minimalistic library for building intelligent AI Agents straight from Python Objects adept for also handling agent multitenancy and secure authentication.
 
-## Agent Multitenancy
+```
+pip install ottoai
+```
 
 
-Multitenancy allows for running multiple agent instances concurrently, each serving a unique tenant. Otto ensures data isolation and security across tenants.
+## Example
 
-## Secure Authentication
 
-Otto streamlines agent authentication for third-party services, along with granular access control to services and data, ensuring tailored user access and data integrity.
+An agent that learns how to answer questions about Github straight from the github python SDK!
 
+```Python
+import ottoai
+import openai
+from github import Github, Auth
+
+
+# setup your openAI key
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+# create an agent
+otto = ottoai.Agent(llm_engine=openai, model="model="gpt-3.5-turbo-0613")
+
+# create a Github object from Github official SDK
+github_sdk_object = Github(auth=Auth.Token(os.getenv("GITHUB_TOKEN")))
+
+# Make your agent capable of answering questions, act over anything regarding Github, by simply passing the object
+otto.add_skill(github_sdk_object)
+
+# Ask some questions
+print(otto.ask("Who was the last person to star the mindsdb/mindsdb repo?"))
+
+```
+
+As simple as that, no need to build tools or chaining, just pass objects as skills, otto figures out the rest.
 
