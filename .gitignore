@@ -1,0 +1,9 @@
+dist
+**/*.pyc
+*__pycache__*
+var
+etc
+.idea
+.pytest_cache
+.vscode
+.vscode/*
