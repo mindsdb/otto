@@ -7,3 +7,4 @@ etc
 .pytest_cache
 .vscode
 .vscode/*
+api_log.json
