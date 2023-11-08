@@ -1,10 +1,29 @@
 import inspect
 import json
 from typing import Any
-import sys
-import os
 from collections.abc import Iterable
 import logging
+
+
+def inspect_object(obj):
+    """
+    Inspect an object to determine its module name, object path within the module, and pip module version.
+    """
+    import_module_name = obj.__name__ if inspect.ismodule(obj) else obj.__class__.__module__
+    return import_module_name
+
+
+def recursive_dict_str(input_dict):
+    dict_str = "{\n"
+    for key, value in input_dict.items():
+        if isinstance(value, dict):
+            dict_str += f"    '{key}': " + recursive_dict_str(value)
+        elif isinstance(value, (str, int, float)):
+            dict_str += f"    '{key}': {value},\n"
+        else:
+            dict_str += f"    '{key}': {type(value)},\n"
+    dict_str += "}\n"
+    return dict_str
 
 
 def get_castable_attributes(obj):
@@ -150,6 +169,10 @@ if __name__ == "__main__":
     # Assuming `some_sdk_object` is an instantiated object from an SDK module
     logging.basicConfig(level=logging.DEBUG)
     from github import Github, Auth
-    github_sdk_object = Github(auth=Auth.Token(os.getenv("GITHUB_TOKEN")))
-    functions = generate_openai_function_spec(github_sdk_object)
+    # github_sdk_object = Github(auth=Auth.Token(os.getenv("GITHUB_TOKEN")))
+    # functions = generate_openai_function_spec(github_sdk_object)
+
+    import github
+
+    print(inspect_object(github))
     

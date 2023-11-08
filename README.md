@@ -1,10 +1,10 @@
 <img src="https://github.com/mindsdb/otto/assets/5898506/c1205022-7f73-41cc-82ea-8075801bdbd4" alt="description" style="width: 20%;" />
 
 
-# Otto: The minimalistic Agent Framework
+# Otto: The minimalistic Framework to build AI Assistants 
 
 
-Welcome to Otto, the most minimalistic library for building intelligent AI Agents straight from Python Objects adept for also handling agent multitenancy and secure authentication.
+Welcome to Otto, the most minimalistic library for building intelligent AI Assistants, adept for also handling multitenancy and secure authentication.
 
 ```
 pip install ottoai
@@ -13,29 +13,30 @@ pip install ottoai
 
 ## Example
 
-
-An agent that learns how to answer questions about Github straight from the github python SDK!
+Turn the Github SDK into an agent that can answer questions from Github live data using pandas to calculate results.
 
 ```Python
 import ottoai
 import openai
+import pandas
+
 from github import Github, Auth
 
 
-# setup your openAI key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# create an assistant
+eve = ottoai.Assistant(name="eve", personality="Like Scarlett Johansson with John Oliver's wits", llm_engine=openai, model="gpt-4")
 
-# create an agent
-otto = ottoai.Agent(llm_engine=openai, model="model="gpt-3.5-turbo-0613")
+# Make your agent capable of answering questions and do all things Github, by simply passing the sdk module
+# Remember. Just pass objects as skills, and Otto will figure out the rest. 
+eve.add_skill(Github)
+eve.add_skill(pandas)
 
-# create a Github object from Github official SDK
-github_sdk_object = Github(auth=Auth.Token(os.getenv("GITHUB_TOKEN")))
+# Start a conversation and add user specific context (variable names must be interpretable, Otto will take care of the rest)
+# In this case the assistant will need access token to github, this is so you can pass context dynamically (solving for multitenancy)
+conversation = eve.start_conversation(user_name = "Bob", user_context_variables = {"github_api_token":"sometoken"} ) 
 
-# Make your agent capable of answering questions, act over anything regarding Github, by simply passing the object
-otto.add_skill(github_sdk_object)
-
-# Ask some questions
-print(otto.ask("Who was the last person to star the mindsdb/mindsdb repo?"))
+# ask a question
+response = conversation.message("Who were the last 5 people to star the mindsdb/otto repo?")
 
 ```
 

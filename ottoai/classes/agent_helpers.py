@@ -19,6 +19,44 @@ from inspect_helpers import generate_openai_function_spec, get_castable_attribut
 from constants import LLM_INIT_FUNCTION_MESSAGES, NOT_FOUND_STRING
 
 
+def create_string(arg_data):
+
+    arguments_dictionary_str =  "{\n"
+    for key, value in arg_data.items():
+        if isinstance(value, dict):
+            arguments_dictionary_str += f"    '{key}': " + "{\n"
+            for sub_key, sub_value in value.items():
+                arguments_dictionary_str += f"        '{sub_key}': {sub_value},\n"
+            arguments_dictionary_str += "    },\n"
+        elif isinstance(value, (str, int, float)):
+            arguments_dictionary_str += f"    '{key}': {value},\n"
+        else:
+            arguments_dictionary_str += f"    '{key}': {type(value)},\n"
+    arguments_dictionary_str += "}\n"
+
+    return arg_data
+
+def extract_python_code_from_md(md_string):
+    pattern = r'```python(.*?)```'
+    matches = re.findall(pattern, md_string, re.DOTALL)
+    python_code = '\n'.join([match.strip() for match in matches])
+    return python_code
+
+def get_runner_function(code_string):
+    try:
+        # Compile the code string
+        code_object = compile(code_string, '<string>', 'exec')
+        function_namespace = {}
+        # Execute the code string
+        exec(code_object, function_namespace)
+        # Get the 'runner' function from the executed code
+        runner_function = function_namespace.get('runner')
+        if runner_function is None:
+            raise RuntimeError("No function named 'runner' found in the code string.")
+        return runner_function
+    except Exception as e:
+        raise RuntimeError("Failed to load the code string.") from e
+    
 
 def get_method_and_args(object, messages, llm_model = 'gpt-4',  max_functions_per_request=40, completion_function = llm_completion):
 
