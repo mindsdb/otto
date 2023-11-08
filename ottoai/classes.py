@@ -1,5 +1,5 @@
-from templates import INSTRUCTION
-from helpers import llm_completion, create_string, extract_python_code_from_md, get_runner_function
+from ottoai.templates import INSTRUCTION
+from ottoai.helpers import llm_completion, create_string, extract_python_code_from_md, get_runner_function
 
 import logging
 import os
@@ -103,6 +103,7 @@ class Conversation:
                 error += 1
                 
                 continue
+        result = None
         logging.debug("Result: " + str(result))
         
         return result
@@ -119,7 +120,7 @@ if __name__ == "__main__":
     import json
 
     # create an assistant
-    eve = Assistant(name="eve", personality="Like Scarlett Johansson with John Oliver's wits", llm_engine=openai, model="gpt-4")
+    eve = Assistant(name="eve", personality="Like Scarlett Johansson with John Oliver's wits", llm_engine=openai, model="gpt-4-1106-preview")
 
     # Make your agent capable of answering questions and do all things Github, by simply passing the sdk module
     # Remember. Just pass objects as skills, and Otto will figure out the rest. 

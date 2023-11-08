@@ -1,1 +1,1 @@
-from classes import Assistant
+from ottoai.classes import Assistant

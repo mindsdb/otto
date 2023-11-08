@@ -35,7 +35,7 @@ class BdistWheelCommand(bdist_wheel):
 
 setuptools.setup(
     name="ottoai",
-    version="0.0.4",
+    version="0.0.5",
     author="MindsDB",
     author_email="otto@mindsdb.com",
     description="The most minimalistic library for building intelligent AI Agents straight from Python Objects",
