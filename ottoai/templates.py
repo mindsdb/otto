@@ -4,16 +4,18 @@
 
 INSTRUCTION = """
 
-You write python code and code alone, try to find the simplest solution to the question.
-Write a Python function called 'runner' that answers the following question:
+You write python code, write the simplest and most effective Python function to answer the following.
 
-{question}
+Question: {question}
 
 Follow these instructions to write the function:
 
-- make sure the function returns a readable string
-- do not make imports other than ({modules_metadata}), and of those only use the minimum necessary
-- the function takes only one argument called 'input' as as follows:
+- The function must be called 'runner' 
+- code should only have the necessary imports and the function runner
+- The function shall return a response to the question
+- Only import the fewest possible pip modules from this list: ({modules_metadata}), 
+- Import the minimum number of modules necessary
+- The function takes only one argument called 'input' as as follows:
 
 input={input_dictionary_string}
 
