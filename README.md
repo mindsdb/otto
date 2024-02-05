@@ -10,4 +10,5 @@ Welcome to Otto, the most minimalistic library for building intelligent AI Assis
 pip install ottoai
 ```
 
+some intrstructions
 
