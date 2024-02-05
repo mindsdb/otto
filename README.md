@@ -11,6 +11,3 @@ pip install ottoai
 ```
 
 
-## Example
-
-Turn the Github SDK into an agent that can answer questions from Github live data using pandas to calculate results.
