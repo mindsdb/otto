@@ -10,5 +10,7 @@ Welcome to Otto, the most minimalistic library for building intelligent AI Assis
 pip install ottoai
 ```
 
-some intrstructions
 
+## Example
+
+Turn the Github SDK into an agent that can answer questions from Github live data using pandas to calculate results.
